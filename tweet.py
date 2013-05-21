@@ -7,7 +7,9 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from twython import Twython
 
-twitter = Twython("xBeXxg9lyElUgwZT6AZ0A", "aawnSpNTOVuDCjx7HMh6uSXetjNN8zWLpZwCEU4LBrk")
+APP_KEY = "APP_KEY"
+APP_SECRET = "APP_SECRET"
+twitter = Twython(APP_KEY, APP_SECRET)
 
 # configuration
 DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
@@ -59,7 +61,10 @@ def after_request(response):
 def index():
     tweets = None
     if g.user is not None:
-        tweets = twitter.getUserTimeline(screen_name=g.user.name)
+        auth_info = session['auth_info']
+        t = Twython(APP_KEY, APP_SECRET,
+            auth_info['oauth_token'], auth_info['oauth_token_secret'])
+        tweets = t.get_user_timeline(screen_name=g.user.name)
             # flash('Unable to load tweets from Twitter. Maybe out of '
             #       'API calls or Twitter is overloaded.')
     return render_template('index.html', tweets=tweets)
@@ -100,32 +105,28 @@ def login():
     oauth_token = auth_props['oauth_token']
     oauth_token_secret = auth_props['oauth_token_secret']
 
+    session['oauth_token'] = oauth_token
+    session['oauth_token_secret'] = oauth_token_secret
+
     return redirect(auth_props['auth_url'])
 
 
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
+    session.pop('twitter', None)
     flash('You were signed out')
     return redirect(request.referrer or url_for('index'))
 
+@app.route('/oauth-authorized')
+def handle_oauth_callback():
+    t = Twython(APP_KEY, APP_SECRET,
+            session['oauth_token'], session['oauth_token_secret'])
 
-@app.route('/oauth-authorized/<oauth_token>')
-def oauth_authorized(oauth_token=None):
-    """Called after authorization.  After this function finished handling,
-    the OAuth information is removed from the session again.  When this
-    happened, the tokengetter from above is used to retrieve the oauth
-    token and secret.
-
-    Because the remote application could have re-authorized the application
-    it is necessary to update the values in the database.
-
-    If the application redirected back after denying, the response passed
-    to the function will be `None`.  Otherwise a dictionary with the values
-    the application submitted.  Note that Twitter itself does not really
-    redirect back unless the user clicks on the application name.
-    """
-
+    oauth_verifier = request.args.get('oauth_verifier')
+    resp = t.get_authorized_tokens(oauth_verifier)
+    session['auth_info'] = resp
+    
     print('======================================')
 
     next_url = request.args.get('next') or url_for('index')
