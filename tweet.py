@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-from twython import Twython
+from twython import Twython, TwythonError
 
 APP_KEY = "APP_KEY"
 APP_SECRET = "APP_SECRET"
@@ -79,15 +79,22 @@ def tweet():
     if not status:
         return redirect(url_for('index'))
 
+    auth_info = session['auth_info']
+    t = Twython(APP_KEY, APP_SECRET,
+            auth_info['oauth_token'], auth_info['oauth_token_secret'])
+    
     successful = True
+    resp = None
     try:
-        twitter.update_status(status=status)
+        resp = t.update_status(status=status)
     except TwythonError as e:
         flash(e)
         successful = False
 
+    print(resp)
+
     if(successful):
-        flash('Successfully tweeted your tweet (ID: #%s)' % resp.data['id'])
+        flash('Successfully tweeted your tweet (ID: #%s)' % resp['id'])
     return redirect(url_for('index'))
 
 
