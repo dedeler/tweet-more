@@ -1,8 +1,9 @@
 from PIL import Image, ImageFont, ImageDraw
+import StringIO
 
 import textwrap
 
-def getImage(tweet):
+def get_image(tweet):
   #435px is the ideal width for twitter
   img_width = 435
   padding = {'left': 10, 'right': 10, 'top': 10, 'bottom': 10}
@@ -27,6 +28,13 @@ def getImage(tweet):
     y_text += line_height
   return im
 
+def get_media(tweet):
+  image_io = StringIO.StringIO()
+  im = get_image(tweet)
+  im.save(image_io, format='PNG')
+  image_io.seek(0)
+  return image_io
+
 def wrap(text, width, font):
   words = text.split(' ')
   lines = []
@@ -45,3 +53,4 @@ def wrap(text, width, font):
       remaining_width -= word_length + space_width
   lines.append(' '.join(line))
   return lines
+
