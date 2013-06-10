@@ -43,6 +43,11 @@
 
   $(function() {
     $('#previewBtn').click(function() {
+
+      if($('textarea[name="tweet"]').get(0).checkValidity() == false){
+        return;//TODO notify user?
+      }
+
       $.ajax({
         url: "{{ url_for('preview') }}",
         data: {tweet: $('textarea[name="tweet"]').val()},
