@@ -12,7 +12,7 @@
               <textarea name=tweet rows=5 required></textarea>
             </fieldset>
             <fieldset class="pull-right">
-              <button type=button class="btn">Preview</button>
+              <button id="previewBtn" type=button class="btn">Preview</button>
               <button type=submit class="btn btn-primary">Tweet!</button>
             </fieldset>
           </form>
@@ -40,6 +40,26 @@
   {% endif %}
   <script type="text/javascript">
   //https://dev.twitter.com/docs/api/1/get/statuses/oembed
+
+  $(function() {
+    $('#previewBtn').click(function() {
+      $.ajax({
+        url: "{{ url_for('preview') }}",
+        data: {tweet: $('textarea[name="tweet"]').val()},
+        method: 'POST',
+        success: function(response){
+          var imgTag='<img src="data:image/png;base64,' + response + '">';
+          var content = '<div class="well"><legend>Preview</legend>' + imgTag + '</div>'
+          $('#tweetPreview').html(content);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr);
+          console.error(status);
+          console.error(error);
+        }
+      });
+    });
+  });
 
   var previewUrl = 'https://api.twitter.com/1/statuses/oembed.json?hide_media=false&align=center&maxwidth=500&id=';
 
@@ -79,7 +99,6 @@
     (function() {
       // `{{tweetId}}` will be in form of `[123456789]` another words just like a javascript array 
       var tweetId = {{tweetId|safe}};
-      debugger;
       console.log(tweetId);
       showPostedTweet(tweetId);
     }());

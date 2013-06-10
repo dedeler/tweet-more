@@ -111,8 +111,6 @@ def tweet():
         flash(e, 'notification')
         successful = False
 
-    print(resp)
-
     if(successful):
         tweetId = resp['id']
         flash(str(resp['id']), 'tweetId')
@@ -120,7 +118,7 @@ def tweet():
 
 @app.route('/preview.png', methods=['POST'])
 def preview():
-    """Previews a status update."""
+    """Sends base64 encoded png in order to preview the status update's image form."""
     if g.user is None:
         return redirect(url_for('login', next=request.url))
     status = request.form['tweet']
@@ -129,7 +127,7 @@ def preview():
 
     media = image_generator.get_media(status)
     response = send_file(media,mimetype ='image/png')
-    return response
+    return media.getvalue().encode("base64").replace("\n", "")
 
 @app.route('/login')
 def login():
@@ -167,8 +165,6 @@ def handle_oauth_callback():
     resp = t.get_authorized_tokens(oauth_verifier)
     session['auth_info'] = resp
     
-    print('======================================')
-
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
         flash(u'You denied the request to sign in.', 'notification')
