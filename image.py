@@ -1,8 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 import StringIO
 
-import textwrap
-
 def get_image(tweet):
   #435px is the ideal width for twitter
   img_width = 435
