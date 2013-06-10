@@ -1,0 +1,8 @@
+# Configuration
+DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
+SECRET_KEY = 'development key'
+DEBUG = True
+
+# Twitter keys
+APP_KEY = ""
+APP_SECRET = ""

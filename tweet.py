@@ -9,22 +9,20 @@ from twython import Twython, TwythonError
 
 from image import ImageGenerator
 
-APP_KEY = ""
-APP_SECRET = ""
+# Setup Flask
+# -----------
+app = Flask('dedeler')
+
+# Load configuration from file pointed by `DEDELER_SETTINGS` env. variable
+app.config.from_envvar('DEDELER_SETTINGS')
+
+#initialize Twython
+APP_KEY = app.config['APP_KEY']
+APP_SECRET = app.config['APP_SECRET']
 twitter = Twython(APP_KEY, APP_SECRET)
 
-# configuration
-DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
-SECRET_KEY = 'development key'
-DEBUG = True
-
-# setup flask
-app = Flask(__name__)
-app.debug = DEBUG
-app.secret_key = SECRET_KEY
-
 # setup sqlalchemy
-engine = create_engine(DATABASE_URI)
+engine = create_engine(app.config['DATABASE_URI'])
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))

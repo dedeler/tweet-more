@@ -1,7 +1,7 @@
 Tweet More
 ==========
 
-Lets you tweet unlimited characters by converting the text into an image where all twitter client are able to show inline (without browsing to a website or opening another app)
+Lets you tweet unlimited characters by converting the text into an image where all twitter clients are able to show inline (without browsing to a website or opening another app)
 
 Moreover all your tags, mentions and links are kept and still functional ;)
 
@@ -31,3 +31,15 @@ sudo pip install -I twython
 ```
 
 `-I` to install all dependencies, namely `requests` and `requests_oauthlib`.
+
+Configuration & Launching
+-------------------------
+
+Rename `settings.py.example` to `settings.py` and fill *Twitter keys*.
+
+To launch the application issue following commands
+
+```
+export DEDELER_SETTINGS='settings.py'
+python tweet.py
+```
