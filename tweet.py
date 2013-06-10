@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from twython import Twython, TwythonError
 
+from image import ImageGenerator
+
 APP_KEY = "APP_KEY"
 APP_SECRET = "APP_SECRET"
 twitter = Twython(APP_KEY, APP_SECRET)
@@ -28,6 +30,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
+image_generator = ImageGenerator()
 
 
 def init_db():
@@ -86,7 +89,8 @@ def tweet():
     successful = True
     resp = None
     try:
-        resp = t.update_status(status=status)
+        media = image_generator.get_media(status)
+        resp = t.update_status_with_media(media, status='Check this out')
     except TwythonError as e:
         flash(e)
         successful = False
