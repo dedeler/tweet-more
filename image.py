@@ -23,7 +23,7 @@ class ImageGenerator:
   def get_image(self, text):
 
     lines = []
-    user_lines = text.split('\n')
+    user_lines = text.splitlines()
     for user_line in user_lines:
       lines.extend(self.wrap(user_line, self.img_width - (self.padding['left'] + self.padding['right']), self.font))
 
