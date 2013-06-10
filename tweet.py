@@ -88,7 +88,7 @@ def tweet():
     resp = None
     try:
         media = image_generator.get_media(status)
-        resp = t.update_status_with_media(media=media, status='Check this out')
+        resp = t.update_status_with_media(media=media, status=get_status_text(status))
     except TwythonError as e:
         flash(e, 'notification')
         successful = False
@@ -161,6 +161,17 @@ def handle_oauth_callback():
     session['user_id'] = user.id
     flash('You were signed in', 'notification')
     return redirect(next_url)
+
+def get_status_text(tweet):
+    status = ' '.join(get_mentions_and_hashtags(tweet))
+    if(len(status)==0):
+        status = ''
+    return status
+
+
+def get_mentions_and_hashtags(tweet):
+    words = tweet.split(' ')
+    return [word for word in words if len(word)>0 and (word[0]=='@' or word[0]=='#')]
 
 
 if __name__ == '__main__':
