@@ -15,7 +15,11 @@ def get_image(tweet):
   font = ImageFont.truetype(font_path,font_size,encoding='unic')
   char_width, line_height = font.getsize("c")
   max_chars = (img_width - (padding['left'] + padding['right']))/char_width
-  lines = wrap(tweet, img_width - (padding['left'] + padding['right']), font)
+
+  lines = []
+  user_lines = tweet.split('\n')
+  for user_line in user_lines:
+    lines.extend(wrap(user_line, img_width - (padding['left'] + padding['right']), font))
 
   img_height = padding['top'] + padding['bottom'] + (len(lines)*line_height)
 
