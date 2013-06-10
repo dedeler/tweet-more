@@ -8,6 +8,17 @@ Moreover all your tags, mentions and links are kept and still functional ;)
 Dependencies
 ------------
 
+**Software packages:**
+
+* python (you don't say)
+* pip
+
+Check out installation instructions here: http://www.pip-installer.org/en/latest/installing.html
+
+Note that python version is `2.7.4`.
+
+**Python packages:**
+
 * flask
 * sqlalchemy
 * twython
