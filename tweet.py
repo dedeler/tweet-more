@@ -9,8 +9,8 @@ from twython import Twython, TwythonError
 
 from image import ImageGenerator
 
-APP_KEY = "APP_KEY"
-APP_SECRET = "APP_SECRET"
+APP_KEY = ""
+APP_SECRET = ""
 twitter = Twython(APP_KEY, APP_SECRET)
 
 # configuration
@@ -92,13 +92,14 @@ def tweet():
         media = image_generator.get_media(status)
         resp = t.update_status_with_media(media=media, status='Check this out')
     except TwythonError as e:
-        flash(e)
+        flash(e, 'notification')
         successful = False
 
     print(resp)
 
     if(successful):
-        flash('Successfully tweeted your tweet (ID: #%s)' % resp['id'])
+        tweetId = resp['id']
+        flash(str(resp['id']), 'tweetId')
     return redirect(url_for('index'))
 
 
@@ -126,7 +127,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     session.pop('twitter', None)
-    flash('You were signed out')
+    flash('You were signed out', 'notification')
     return redirect(request.referrer or url_for('index'))
 
 @app.route('/oauth-authorized')
@@ -142,7 +143,7 @@ def handle_oauth_callback():
 
     next_url = request.args.get('next') or url_for('index')
     if resp is None:
-        flash(u'You denied the request to sign in.')
+        flash(u'You denied the request to sign in.', 'notification')
         return redirect(next_url)
 
     user = User.query.filter_by(name=resp['screen_name']).first()
@@ -160,7 +161,7 @@ def handle_oauth_callback():
     db_session.commit()
 
     session['user_id'] = user.id
-    flash('You were signed in')
+    flash('You were signed in', 'notification')
     return redirect(next_url)
 
 

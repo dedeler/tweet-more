@@ -1,29 +1,93 @@
 {% extends "layout.html" %}
 {% block body %}
-  <h2>Overview</h2>
+
   {% if g.user %}
-    <p>
-      Hello {{ g.user.name }}!  Wanna tweet something?
-    <form action="{{ url_for('tweet') }}"  method=post>
-      <p>
-        <input type=text name=tweet size=40>
-        <input type=submit value="Tweet!">
-    </form>
+
+    <div class="row-fluid">
+      <div class="offset2 span8">
+        <div class=well>
+          <form action="{{ url_for('tweet') }}"  method=post>
+            <fieldset>
+              <legend>Hello {{ g.user.name }}! Wanna tweet something?</legend>
+              <textarea name=tweet rows=5 required></textarea>
+            </fieldset>
+            <fieldset class="pull-right">
+              <button type=button class="btn">Preview</button>
+              <button type=submit class="btn btn-primary">Tweet!</button>
+            </fieldset>
+          </form>
+        </div>
+
+        <span id="tweetPreview">
+        </span>
+      </div>      
+    </div>
+
     {% if tweets %}
-    <h3>Your Timeline</h3>
-    <ul>
-    {% for tweet in tweets %}
-      <li><a href="http://twitter.com/{{ tweet.user.screen_name
-        }}">{{ tweet.user.screen_name }}</a>: {{ tweet.text|urlize }}
-    {% endfor %}
-    </ul>
+    <div class=well>
+      <h3>Your Timeline</h3>
+      <ul>
+      {% for tweet in tweets %}
+        <li><a href="http://twitter.com/{{ tweet.user.screen_name}}">{{ tweet.user.screen_name }}</a>: {{ tweet.text|urlize }}
+      {% endfor %}
+      </ul>
+    </div>
     {% endif %}
   {% else %}
     <p>
-      Sign in to view your public timeline and to tweet from this
-      example application.
+      Sign in to view your public timeline and to tweet unlimited characters.
     <p>
-      <a href="{{ url_for('login') }}"><img src="{{
-        url_for('static', filename='sign-in.png') }}" alt="sign in"></a>
   {% endif %}
+  <script type="text/javascript">
+  //https://dev.twitter.com/docs/api/1/get/statuses/oembed
+
+  var previewUrl = 'https://api.twitter.com/1/statuses/oembed.json?hide_media=false&align=center&maxwidth=500&id=';
+
+  function showPostedTweet(tweetId) {
+
+    if(tweetId && tweetId[0]){
+      tweetId = tweetId[0];
+
+      $.ajax({
+        url: previewUrl + tweetId.toString(),
+        dataType: 'jsonp',
+        processData:false,
+        success: function(response){
+          $('#tweetPreview').html(response.html);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr);
+          console.error(status);
+          console.error(error);
+        }
+      });
+    }
+    else{
+      console.error('Unexpected tweet id: ');
+      console.error(tweetId);
+    }
+
+  }
+
+  </script>
+
+  {% with tweetId = get_flashed_messages(category_filter=["tweetId"]) %}
+  {% if tweetId %}
+    <script type="text/javascript">
+    
+    // oh look, there is a happy little javascript closure here
+    (function() {
+      // `{{tweetId}}` will be in form of `[123456789]` another words just like a javascript array 
+      var tweetId = {{tweetId|safe}};
+      debugger;
+      console.log(tweetId);
+      showPostedTweet(tweetId);
+    }());
+
+    </script>
+  {% endif %}
+  {% endwith %}
+
 {% endblock %}
+
+

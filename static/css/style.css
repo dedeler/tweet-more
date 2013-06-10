@@ -1,0 +1,15 @@
+body{
+  font-family: 'Helvetica', serif;
+  padding-top: 60px;
+}
+
+#twitterSignin{
+  padding: 0;
+  border: 0;
+  margin-top: 8px;
+}
+
+textarea[name="tweet"] {
+  /*Well, this is not an optimal solution but close enough (ignoring huge wide screens)*/
+  width: 97%
+}
