@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/gpl-3.0.html>
 '''
 
 from flask import Flask, request, redirect, url_for, session, flash, g, \
-     render_template
+     render_template, send_file
 
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -118,6 +118,18 @@ def tweet():
         flash(str(resp['id']), 'tweetId')
     return redirect(url_for('index'))
 
+@app.route('/preview.png', methods=['POST'])
+def preview():
+    """Previews a status update."""
+    if g.user is None:
+        return redirect(url_for('login', next=request.url))
+    status = request.form['tweet']
+    if not status:
+        return redirect(url_for('index'))
+
+    media = image_generator.get_media(status)
+    response = send_file(media,mimetype ='image/png')
+    return response
 
 @app.route('/login')
 def login():
