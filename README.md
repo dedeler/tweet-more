@@ -19,9 +19,11 @@ Note that python version is `2.7.4`.
 
 **Python packages:**
 
-* flask
-* sqlalchemy
-* twython
+* flask 0.9
+* sqlalchemy 0.8.1
+* twython 2.10.1
+
+Note that `twython` version is crucial for embedding images into tweets. 
 
 ```
 sudo pip install flask sqlalchemy
