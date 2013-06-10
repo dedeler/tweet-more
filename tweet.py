@@ -90,7 +90,7 @@ def tweet():
     resp = None
     try:
         media = image_generator.get_media(status)
-        resp = t.update_status_with_media(media, status='Check this out')
+        resp = t.update_status_with_media(media=media, status='Check this out')
     except TwythonError as e:
         flash(e)
         successful = False
