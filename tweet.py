@@ -27,9 +27,12 @@ from twython import Twython, TwythonError
 
 from image import ImageGenerator
 
+import os
+
 # Setup Flask
 # -----------
 app = Flask('dedeler')
+port = int(os.environ.get("PORT", 5000))
 
 # Load configuration from file pointed by `DEDELER_SETTINGS` env. variable
 app.config.from_envvar('DEDELER_SETTINGS')
@@ -138,7 +141,7 @@ def login():
     # return twitter.authorize(callback=url_for('oauth_authorized',
     #     next=request.args.get('next') or request.referrer or None))
 
-    auth_props = twitter.get_authentication_tokens(callback_url='http://127.0.0.1:5000/oauth-authorized')
+    auth_props = twitter.get_authentication_tokens(callback_url='http://127.0.0.1:%s/oauth-authorized'%port)
 
     oauth_token = auth_props['oauth_token']
     oauth_token_secret = auth_props['oauth_token_secret']
@@ -202,4 +205,4 @@ def get_mentions_and_hashtags(tweet):
 
 if __name__ == '__main__':
     init_db()
-    app.run()
+    app.run(port=port)

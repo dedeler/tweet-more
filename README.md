@@ -44,6 +44,16 @@ export DEDELER_SETTINGS='settings.py'
 python tweet.py
 ```
 
+### Heroku
+
+To set env. variable on Heroku
+
+```
+heroku config:set DEDELER_SETTINGS='settings.py'
+```
+
+**Remember** to upload `settings.py` to Heroku.
+
 License
 -------
 
