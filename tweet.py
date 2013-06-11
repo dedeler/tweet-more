@@ -142,7 +142,7 @@ def login():
     # return twitter.authorize(callback=url_for('oauth_authorized',
     #     next=request.args.get('next') or request.referrer or None))
 
-    auth_props = twitter.get_authentication_tokens(callback_url=app.config['CALLBACK_BASE'])
+    auth_props = twitter.get_authentication_tokens(callback_url=app.config['CALLBACK_BASE'] + 'oauth-authorized')
 
     oauth_token = auth_props['oauth_token']
     oauth_token_secret = auth_props['oauth_token_secret']
@@ -206,4 +206,4 @@ def get_mentions_and_hashtags(tweet):
 if __name__ == '__main__':
     init_db()
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, port=port)
+    app.run(port=port)

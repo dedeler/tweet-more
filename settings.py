@@ -24,9 +24,9 @@ port = int(os.environ.get("PORT", 5000))
 # DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
 DATABASE_URI = os.environ['DATABASE_URL']
 SECRET_KEY = 'development key'
-DEBUG = True
+DEBUG = False
 CALLBACK_BASE = 'http://tweet-more.herokuapp.com/'
-# CALLBACK_BASE = 'http://127.0.0.1:%s/oauth-authorized'%port # for local dev
+# CALLBACK_BASE = 'http://127.0.0.1:%s/'%port # for local dev
 
 # Twitter keys
 APP_KEY = os.environ['APP_KEY']

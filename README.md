@@ -41,6 +41,8 @@ To launch the application issue following commands
 
 ```
 export DEDELER_SETTINGS='settings.py'
+export APP_KEY='XXX'
+export APP_SECRET='XXX'
 python tweet.py
 ```
 
@@ -50,6 +52,8 @@ To set env. variable on Heroku
 
 ```
 heroku config:set DEDELER_SETTINGS='settings.py'
+heroku config:set APP_KEY='XXX'
+heroku config:set APP_SECRET='XXX'
 ```
 
 **Remember** to upload `settings.py` to Heroku.
