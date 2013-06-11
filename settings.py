@@ -29,5 +29,5 @@ CALLBACK_BASE = 'http://tweet-more.herokuapp.com/'
 # CALLBACK_BASE = 'http://127.0.0.1:%s/oauth-authorized'%port # for local dev
 
 # Twitter keys
-APP_KEY = ""
-APP_SECRET = ""
+APP_KEY = os.environ['APP_KEY']
+APP_SECRET = os.environ['APP_SECRET']
