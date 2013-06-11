@@ -3,3 +3,4 @@ SQLAlchemy==0.8.1
 twython==2.10.1
 PIL
 psycopg2
+gunicorn==0.17.4

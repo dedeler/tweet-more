@@ -53,6 +53,7 @@ image_generator = ImageGenerator()
 
 
 def init_db():
+    print("INIT DB")
     Base.metadata.create_all(bind=engine)
 
 
@@ -202,7 +203,7 @@ def get_mentions_and_hashtags(tweet):
     words = tweet.split(' ')
     return [word for word in words if len(word)>0 and (word[0]=='@' or word[0]=='#')]
 
-
 if __name__ == '__main__':
     init_db()
-    app.run(port=port)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, port=port)

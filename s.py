@@ -16,13 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
 '''
 
-import os
-
 # Configuration
-DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:////tmp/flask-oauth.db')
+DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
 SECRET_KEY = 'development key'
 DEBUG = True
 
 # Twitter keys
-APP_KEY = ""
-APP_SECRET = ""
+APP_KEY = "lxxpJzLWCnd7woI6NRRrKg"
+APP_SECRET = "EHcgrznquvz4tCi40SxWowgaV1OJzZQCtnWmuOy8hg"

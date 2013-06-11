@@ -1,1 +1,1 @@
-web: python tweet.py
+web: gunicorn tweet:app
