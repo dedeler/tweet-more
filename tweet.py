@@ -142,7 +142,7 @@ def login():
     # return twitter.authorize(callback=url_for('oauth_authorized',
     #     next=request.args.get('next') or request.referrer or None))
 
-    auth_props = twitter.get_authentication_tokens(callback_url='http://127.0.0.1:%s/oauth-authorized'%port)
+    auth_props = twitter.get_authentication_tokens(callback_url=app.config['CALLBACK_BASE'])
 
     oauth_token = auth_props['oauth_token']
     oauth_token_secret = auth_props['oauth_token_secret']

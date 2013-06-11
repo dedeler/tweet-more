@@ -35,4 +35,4 @@ nosetests.xml
 .pydevproject
 
 # keep secret keys and app ids for yourself
-# settings.py
+settings.py

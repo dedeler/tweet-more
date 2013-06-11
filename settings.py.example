@@ -18,10 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/gpl-3.0.html>
 
 import os
 
+port = int(os.environ.get("PORT", 5000))
+
 # Configuration
-DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:////tmp/flask-oauth.db')
+# DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
+DATABASE_URI = os.environ['DATABASE_URL']
 SECRET_KEY = 'development key'
 DEBUG = True
+CALLBACK_BASE = 'http://tweet-more.herokuapp.com/'
+# CALLBACK_BASE = 'http://127.0.0.1:%s/oauth-authorized'%port # for local dev
 
 # Twitter keys
 APP_KEY = ""
