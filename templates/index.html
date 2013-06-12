@@ -13,8 +13,8 @@
             </fieldset>
             <fieldset class="pull-right">
               <span id="wordCount">0</span>
-              <button id="previewBtn" type=button class="btn">Preview</button>
-              <button type=submit class="btn btn-primary">Tweet!</button>
+              <button id="previewBtn" type=button class="btn formBtn">Preview</button>
+              <button type=submit class="btn btn-primary formBtn">Tweet!</button>
             </fieldset>
           </form>
         </div>
@@ -51,9 +51,15 @@
         return;//TODO notify user?
       }
 
+      var tweet = $('textarea[name="tweet"]').val();
+
+      if(tweet.length > 333){
+        return;
+      }
+
       $.ajax({
         url: "{{ url_for('preview') }}",
-        data: {tweet: $('textarea[name="tweet"]').val()},
+        data: {tweet: tweet},
         method: 'POST',
         success: function(response){
           var imgTag='<img src="data:image/png;base64,' + response + '">';
@@ -75,8 +81,19 @@
       var count = $(this).val().length;
       $('#wordCount').text(count);
 
-      var color = count > 140 ? 'blue' : 'gray';
-      count > 140 ? $('#wordCount').text($('#wordCount').text() + ' :)') : null;
+      var color = 'gray';
+
+      $('.formBtn').removeAttr('disabled');
+      if(count > 140 && count <= 333){
+        color = 'blue';
+        $('#wordCount').text($('#wordCount').text() + ' :)');
+      }
+      else if(count > 333){
+        color = 'red';
+        $('#wordCount').text($('#wordCount').text() + ' :(');
+        $('.formBtn').attr('disabled', 'true');
+      }
+
       $('#wordCount').css('color', color);
     }
   });

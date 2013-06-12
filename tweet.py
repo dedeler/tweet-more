@@ -31,6 +31,10 @@ from image import ImageGenerator
 
 import os, re
 
+
+class Tw333tException(Exception):
+    pass
+
 # Setup Flask
 # -----------
 app = Flask('dedeler')
@@ -107,13 +111,16 @@ def tweet():
     if not status:
         return redirect(url_for('index'))
 
-    auth_info = session['auth_info']
-    t = Twython(APP_KEY, APP_SECRET,
-            auth_info['oauth_token'], auth_info['oauth_token_secret'])
-    
     successful = True
     resp = None
+    
     try:
+        auth_info = session['auth_info']
+        t = Twython(APP_KEY, APP_SECRET,
+                auth_info['oauth_token'], auth_info['oauth_token_secret'])
+        if len(status) > 333:
+            raise Tw333tException("Whoa the limit is 333 :/")
+
         media = image_generator.get_media(status)
         processedStatus = get_status_text(status)
 
@@ -122,6 +129,9 @@ def tweet():
 
         resp = t.update_status_with_media(media=media, status=get_status_text(processedStatus))
     except TwythonError as e:
+        flash(e, 'notification')
+        successful = False
+    except Tw333tException as e:
         flash(e, 'notification')
         successful = False
 
@@ -228,7 +238,7 @@ def get_status_text(tweet):
     return status
 
 def get_mentions_and_hashtags(tweet):
-    words = tweet.split(' ')
+    words = tweet.replace('\n', ' ').split(' ')
     return [word for word in words if len(word)>0 and (word[0]=='@' or word[0]=='#')]
 
 def get_urls(tweet):
