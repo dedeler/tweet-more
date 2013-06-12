@@ -43,8 +43,11 @@ To launch the application issue following commands
 export DEDELER_SETTINGS='settings.py'
 export APP_KEY='XXX'
 export APP_SECRET='XXX'
+export ENV='dev'
 python tweet.py
 ```
+
+**Note that** `export ENV='dev'` should only be used in development environment and in prod it should be left blank.
 
 ### Heroku
 
