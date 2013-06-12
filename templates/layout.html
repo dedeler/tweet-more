@@ -37,7 +37,10 @@
   <div class="offset2 span8">
 
   {% for message in get_flashed_messages(category_filter=["notification"]) %}
-    <p class=message>{{ message }}
+    <div class="alert alert-info">
+      <p class=message>{{ message }}
+      </p>
+    </div>
   {% endfor %}
 
   {% block body %}{% endblock %}
