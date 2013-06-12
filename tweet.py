@@ -65,7 +65,6 @@ def init_db():
     print("INIT DB")
     Base.metadata.create_all(bind=engine)
 
-
 class User(Base):
     __tablename__ = 'users'
     id = Column('user_id', Integer, primary_key=True)
@@ -127,7 +126,7 @@ def tweet():
         # Force all mentions and links 140 char long by brutally stripping exeeding part
         processedStatus = processedStatus[:117]
 
-        resp = t.update_status_with_media(media=media, status=get_status_text(processedStatus))
+        resp = t.update_status_with_media(media=media, status=processedStatus)
     except TwythonError as e:
         flash(e, 'notification')
         successful = False
@@ -230,7 +229,7 @@ def get_status_text(tweet):
     # check if tweet is directly targeted to someone<br>
     # If tweet is not directly targeted to someone than don't let a mention appear 
     # at the start of the line
-    if tweet[0] != '@' and len(urls) == 0:
+    if tweet[0] != '@' and len(mentions) > 0 and len(urls) == 0:
         status = '.' + status
 
     if(len(status)==0):
