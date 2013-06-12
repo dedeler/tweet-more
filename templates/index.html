@@ -73,7 +73,7 @@
       var count = $(this).val().length;
       $('#wordCount').text(count);
 
-      var color = count > 160 ? 'blue' : 'gray';
+      var color = count > 140 ? 'blue' : 'gray';
       count > 140 ? $('#wordCount').text($('#wordCount').text() + ' :)') : null;
       $('#wordCount').css('color', color);
     }

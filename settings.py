@@ -29,7 +29,7 @@ DATABASE_URI = 'sqlite:////tmp/flask-oauth.db' if environment == 'dev' else os.e
 SECRET_KEY = 'development key'
 DEBUG = True
 
-CALLBACK_BASE = 'http://127.0.0.1:%s/'%port if environment == 'dev' else 'http://tweet-more.herokuapp.com/'
+CALLBACK_BASE = 'http://127.0.0.1:%s/'%port if environment == 'dev' else 'http://www.tw333t.com/'
 
 # Twitter keys
 APP_KEY = os.environ['APP_KEY']
