@@ -1,3 +1,5 @@
+# coding=utf8
+
 '''
 Tweet More
 Copyright (C) <2013>  <Dedeler>
@@ -27,7 +29,7 @@ from twython import Twython, TwythonError
 
 from image import ImageGenerator
 
-import os
+import os, re
 
 # Setup Flask
 # -----------
@@ -51,6 +53,9 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 image_generator = ImageGenerator()
 
+# RegEx source: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+url_regex_pattern = r"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'.,<>?«»“”‘’]))"
+url_regex = re.compile(url_regex_pattern, re.I | re.M | re.U)
 
 def init_db():
     print("INIT DB")
@@ -110,7 +115,12 @@ def tweet():
     resp = None
     try:
         media = image_generator.get_media(status)
-        resp = t.update_status_with_media(media=media, status=get_status_text(status))
+        processedStatus = get_status_text(status)
+
+        # Force all mentions and links 140 char long by brutally stripping exeeding part
+        processedStatus = processedStatus[:117]
+
+        resp = t.update_status_with_media(media=media, status=get_status_text(processedStatus))
     except TwythonError as e:
         flash(e, 'notification')
         successful = False
@@ -193,15 +203,36 @@ def handle_oauth_callback():
     return redirect(next_url)
 
 def get_status_text(tweet):
-    status = ' '.join(get_mentions_and_hashtags(tweet))
+    # Twitter also left-strips tweets
+    tweet = tweet.lstrip()
+
+    urls = get_urls(tweet)
+    mentions = get_mentions_and_hashtags(tweet)
+
+    # If there is no direct mention let urls appear before mentions
+    if tweet[0] != '@':
+        status = ' '.join(urls)
+        status += (' ' if len(urls) > 0 else '') + ' '.join(mentions)
+    else:
+        status = ' '.join(mentions)
+        status += (' ' if len(mentions) > 0 else '') + ' '.join(urls)
+
+    # check if tweet is directly targeted to someone<br>
+    # If tweet is not directly targeted to someone than don't let a mention appear 
+    # at the start of the line
+    if tweet[0] != '@' and len(urls) == 0:
+        status = '.' + status
+
     if(len(status)==0):
         status = ''
     return status
 
-
 def get_mentions_and_hashtags(tweet):
     words = tweet.split(' ')
     return [word for word in words if len(word)>0 and (word[0]=='@' or word[0]=='#')]
+
+def get_urls(tweet):
+    return list(group[0] for group in url_regex.findall(tweet) )
 
 if __name__ == '__main__':
     init_db()
