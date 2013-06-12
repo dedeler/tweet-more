@@ -20,13 +20,16 @@ import os
 
 port = int(os.environ.get("PORT", 5000))
 
+# This variable should be set as `dev` in development machines
+#and should be left blank in prod
+environment = os.environ.get('ENV')
+
 # Configuration
-# DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
-DATABASE_URI = os.environ['DATABASE_URL']
+DATABASE_URI = 'sqlite:////tmp/flask-oauth.db' if environment == 'dev' else os.environ['DATABASE_URL']
 SECRET_KEY = 'development key'
 DEBUG = True
-CALLBACK_BASE = 'http://tweet-more.herokuapp.com/'
-# CALLBACK_BASE = 'http://127.0.0.1:%s/'%port # for local dev
+
+CALLBACK_BASE = 'http://127.0.0.1:%s/'%port if environment == 'dev' else 'http://tweet-more.herokuapp.com/'
 
 # Twitter keys
 APP_KEY = os.environ['APP_KEY']

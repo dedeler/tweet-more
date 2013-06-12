@@ -12,6 +12,7 @@
               <textarea name=tweet rows=5 required></textarea>
             </fieldset>
             <fieldset class="pull-right">
+              <span id="wordCount">0</span>
               <button id="previewBtn" type=button class="btn">Preview</button>
               <button type=submit class="btn btn-primary">Tweet!</button>
             </fieldset>
@@ -63,7 +64,19 @@
           console.error(error);
         }
       });
-    });
+    });//end of preview btn click
+
+    $('textarea[name="tweet"]').keyup(countCheck);
+    $('textarea[name="tweet"]').keydown(countCheck);
+
+    function countCheck() {
+      var count = $(this).val().length;
+      $('#wordCount').text(count);
+
+      var color = count > 160 ? 'blue' : 'gray';
+      count > 160 ? $('#wordCount').text($('#wordCount').text() + ' :)') : null;
+      $('#wordCount').css('color', color);
+    }
   });
 
   var previewUrl = 'https://api.twitter.com/1/statuses/oembed.json?hide_media=false&align=center&maxwidth=500&id=';

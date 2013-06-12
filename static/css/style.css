@@ -30,6 +30,12 @@ body{
   margin-top: 8px;
 }
 
+#wordCount{
+  color: gray;
+  margin-right: 20px;
+  display: inline;
+}
+
 textarea[name="tweet"] {
   /*Well, this is not an optimal solution but close enough (ignoring huge wide screens)*/
   width: 97%
