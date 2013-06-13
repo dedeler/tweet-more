@@ -46,6 +46,7 @@ export APP_SECRET='XXX'
 export ENV='dev'
 python tweet.py
 ```
+Optionally, you can set WATERMARK_TEXT to display a litte watermark-footer message to each image.
 
 **Note that** `export ENV='dev'` should only be used in development environment and in prod it should be left blank.
 
