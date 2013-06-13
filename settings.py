@@ -34,3 +34,6 @@ CALLBACK_BASE = 'http://127.0.0.1:%s/'%port if environment == 'dev' else 'http:/
 # Twitter keys
 APP_KEY = os.environ['APP_KEY']
 APP_SECRET = os.environ['APP_SECRET']
+
+#watermark text
+WATERMARK_TEXT = os.environ['WATERMARK_TEXT'] if 'WATERMARK_TEXT' in os.environ else None 
