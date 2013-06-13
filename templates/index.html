@@ -14,7 +14,7 @@
             <fieldset class="pull-right">
               <span id="wordCount">0</span>
               <button id="previewBtn" type=button class="btn formBtn">Preview</button>
-              <button type=submit class="btn btn-primary formBtn">Tweet!</button>
+              <button id="submitBtn" type=submit class="btn btn-primary formBtn">Tweet!</button>
             </fieldset>
           </form>
         </div>
@@ -125,6 +125,19 @@
     }
 
   }
+
+  //tweet length
+  
+    $("#submitBtn").click(function(e){
+      var tweetLength = $('textarea[name="tweet"]').val().length
+      if(typeof ga !== "undefined" && tweetLength > 0){
+        var a = ga('send', 'event', 'tweet-button', 'click', {
+          'metric1': tweetLength
+        });
+        console.log("the value "+tweetLength+" will be reported");
+      }
+    });
+  
 
   </script>
 
