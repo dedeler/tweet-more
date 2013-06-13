@@ -10,7 +10,10 @@ class ImageGenerator:
     foreground_color = (31, 31, 31), \
     background_color = (255,255,255), \
     font_path = 'OpenSans-Light.ttf', \
-    font_size = 16):
+    font_size = 16, \
+    watermark_text = None,
+    watermark_font_size = 14,
+    watermark_foreground_color = (124, 124, 124)):
 
     self.img_width = img_width
     self.padding = padding
@@ -18,6 +21,12 @@ class ImageGenerator:
     self.background_color = background_color
     self.font = ImageFont.truetype(font_path,font_size,encoding='unic')
     self.char_width, self.line_height = self.font.getsize("M")
+
+    self.watermark_text = watermark_text
+    self.watermark_font_size = watermark_font_size
+    self.watermark_foreground_color = watermark_foreground_color
+    self.watermark_font = ImageFont.truetype(font_path,watermark_font_size,encoding='unic')
+
 
 
   def get_image(self, text):
@@ -28,6 +37,9 @@ class ImageGenerator:
       lines.extend(self.wrap(user_line, self.img_width - (self.padding['left'] + self.padding['right']), self.font))
 
     img_height = self.padding['top'] + self.padding['bottom'] + (len(lines)*self.line_height)
+    
+    if(self.watermark_text is not None):
+      img_height += self.line_height
 
     im = Image.new("RGB",(self.img_width,img_height),self.background_color)
     draw = ImageDraw.Draw(im)
@@ -36,6 +48,15 @@ class ImageGenerator:
     for line in lines:
       draw.text((self.padding['left'], y_text), line, font=self.font, fill = self.foreground_color)
       y_text += self.line_height
+
+    if(self.watermark_text is not None):
+      y_text+=self.padding['bottom']
+      watermark_length, watermark_height = self.watermark_font.getsize(self.watermark_text)
+      x_watermark = self.img_width - watermark_length - self.padding['right']
+      if(x_watermark<self.padding['left']):
+        x_watermark = self.padding['left']
+      draw.text((x_watermark, y_text), self.watermark_text, font=self.watermark_font, fill = self.watermark_foreground_color)
+
     return im
 
   def get_media(self, text):
