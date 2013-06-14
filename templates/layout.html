@@ -33,7 +33,7 @@
 
         <form class="navbar-form pull-right">
           {% if g.user %}
-          <li><a class="btn" href="{{ url_for('logout') }}">sign out [{{ g.user.name }}]</a>
+          <a class="btn" href="{{ url_for('logout') }}">sign out [{{ g.user.name }}]</a>
           {% else %}
           <!-- <li><a class="btn" href="{{ url_for('login') }}">sign in</a> -->
           <a id="twitterSignin" class="btn" href="{{ url_for('login') }}"><img src="{{url_for('static', filename='sign-in.png') }}" alt="sign in"></a>
