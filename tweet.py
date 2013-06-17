@@ -220,11 +220,9 @@ def get_status_text(tweet):
 
     # If there is no direct mention let urls appear before mentions
     if tweet[0] != '@':
-        status = ' '.join(urls)
-        status += (' ' if len(urls) > 0 else '') + ' '.join(mentions)
+        status = ' '.join(urls+mentions)
     else:
-        status = ' '.join(mentions)
-        status += (' ' if len(mentions) > 0 else '') + ' '.join(urls)
+        status = ' '.join(mentions+urls)
 
     # check if tweet is directly targeted to someone<br>
     # If tweet is not directly targeted to someone than don't let a mention appear 
