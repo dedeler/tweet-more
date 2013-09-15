@@ -8,13 +8,13 @@
         <div class=well>
           <form action="{{ url_for('tweet') }}"  method=post>
             <fieldset>
-              <legend>Hello {{ g.user.name }}! Wanna tweet something?</legend>
+              <legend>{{_('Hello')}} {{ g.user.name }}! {{_('Wanna tweet something?')}}</legend>
               <textarea name=tweet rows=5 required></textarea>
             </fieldset>
             <fieldset class="pull-right">
               <span id="wordCount">0</span>
-              <button id="previewBtn" type=button class="btn formBtn">Preview</button>
-              <button id="submitBtn" type=submit class="btn btn-primary formBtn">Tweet!</button>
+              <button id="previewBtn" type=button class="btn formBtn">{{_('Preview')}}</button>
+              <button id="submitBtn" type=submit class="btn btn-primary formBtn">{{_('Tweet!')}}</button>
             </fieldset>
           </form>
         </div>
@@ -26,7 +26,7 @@
 
     {% if tweets %}
     <div>
-      <h3>Your Timeline</h3>
+      <h3>{{_('Your Timeline')}}</h3>
       <ul class="nav nav-tabs nav-stacked">
       {% for tweet in tweets %}
         <li><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id}}/">{{ tweet.text }}</a></li>
@@ -36,9 +36,20 @@
     {% endif %}
   {% else %}
     <div class=hero-unit>
-      <h1>140? No limits because size matters!</h1>
-      <p>You don't have to limit yourself to 140 characters! Tweet longer, without redirecting your followers to external links. Your longer tweets are embedded to your tweets as photos!</p>
-      <p><a class="btn btn-primary btn-large" href="{{ url_for('login') }}">Sign in with Twitter</a></p>
+      <h1>{{_('140? No limits because size matters!')}}</h1>
+      <p>{{_('You don\'t have to limit yourself to 140 characters! Tweet longer, without redirecting your followers to external links. Your longer tweets are embedded to your tweets as photos!')}}</p>
+      <p><a class="btn btn-primary btn-large" href="{{ url_for('login') }}">{{_('Sign in with Twitter')}}</a></p>
+    </div>
+
+    <div id="exampleTweet">
+      <legend>{{_('See an Example')}}</legend>
+      {% if locale == 'tr' %}
+        <blockquote class="twitter-tweet"><p>İşte tam 407 karakterlik çok uzun bir tivite örnek. Gördüğünüz gibi… <a href="http://t.co/As5gGJ8sXj">http://t.co/As5gGJ8sXj</a> <a href="https://twitter.com/kodgemisi">@kodgemisi</a> <a href="https://twitter.com/search?q=%23dedeler&amp;src=hash">#dedeler</a>. <a href="http://t.co/FuSDLa9lnz">pic.twitter.com/FuSDLa9lnz</a></p>&mdash; Tw333t (@tw333t_com) <a href="https://twitter.com/tw333t_com/statuses/379302051584671744">September 15, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% else %}
+        <blockquote class="twitter-tweet"><p>This is an example very long tweet of 382 characters. As you see you… <a href="http://t.co/As5gGJ8sXj">http://t.co/As5gGJ8sXj</a> <a href="https://twitter.com/kodgemisi">@kodgemisi</a> <a href="https://twitter.com/search?q=%23dedeler&amp;src=hash">#dedeler</a>. <a href="http://t.co/eu3EbaiqMH">pic.twitter.com/eu3EbaiqMH</a></p>&mdash; Tw333t (@tw333t_com) <a href="https://twitter.com/tw333t_com/statuses/379296933443289088">September 15, 2013</a></blockquote>
+      {% endif %}
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
   {% endif %}
   <script type="text/javascript">
@@ -59,7 +70,7 @@
         method: 'POST',
         success: function(response){
           var imgTag='<img src="data:image/png;base64,' + response + '">';
-          var content = '<div class="well"><legend>Preview</legend>' + imgTag + '</div>'
+          var content = '<div class="well"><legend>{{_('Preview')}}</legend>' + imgTag + '</div>'
           $('#tweetPreview').html(content);
         },
         error: function(xhr, status, error) {
@@ -117,19 +128,16 @@
 
   }
 
-  //tweet length
-  
-    $("#submitBtn").click(function(e){
-      var tweetLength = $('textarea[name="tweet"]').val().length
-      if(typeof ga !== "undefined" && tweetLength > 0){
-        var a = ga('send', 'event', 'tweet-button', 'click', {
-          'metric1': tweetLength
-        });
-        console.log("the value "+tweetLength+" will be reported");
-      }
-    });
-  
-
+  //showing tweet length
+  $("#submitBtn").click(function(e){
+    var tweetLength = $('textarea[name="tweet"]').val().length
+    if(typeof ga !== "undefined" && tweetLength > 0){
+      var a = ga('send', 'event', 'tweet-button', 'click', {
+        'metric1': tweetLength
+      });
+      console.log("the value "+tweetLength+" will be reported");
+    }
+  });
   </script>
 
   {% with tweetId = get_flashed_messages(category_filter=["tweetId"]) %}

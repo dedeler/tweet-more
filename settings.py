@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Tweet More
 Copyright (C) <2013>  <Dedeler>
@@ -37,3 +39,8 @@ APP_SECRET = os.environ['APP_SECRET']
 
 #watermark text
 WATERMARK_TEXT = os.environ['WATERMARK_TEXT'] if 'WATERMARK_TEXT' in os.environ else None 
+
+LANGUAGES = {
+	'en': 'English',
+	'tr': 'Türkçe'
+}

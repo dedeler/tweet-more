@@ -20,13 +20,14 @@ Note that python version is `2.7.4`.
 **Python packages:**
 
 * flask 0.9
+* flask-babel 0.9
 * sqlalchemy 0.8.1
 * twython 2.10.1
 
 Note that `twython` version is crucial for embedding images into tweets. 
 
 ```
-sudo pip install flask sqlalchemy
+sudo pip install flask flask-babel sqlalchemy
 sudo pip install -I twython
 ```
 
@@ -61,6 +62,29 @@ heroku config:set APP_SECRET='XXX'
 ```
 
 **Remember** to upload `settings.py` to Heroku.
+
+Translations
+------------
+
+```
+# generate messages.pot file
+pybabel extract -F babel.cfg -o messages.pot .
+
+# generate a translation for a language, for example Turkish(tr)
+# note that you need to remove fuzzy word from generated language translation
+pybabel init -i messages.pot -d translations -l tr
+
+
+# compile translations
+pybabel compile -d translations
+
+# update translations
+pybabel extract -F babel.cfg -o messages.pot .
+pybabel update -i messages.pot -d translations
+
+```
+
+See http://pythonhosted.org/Flask-Babel for details
 
 License
 -------

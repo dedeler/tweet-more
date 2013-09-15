@@ -25,6 +25,9 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+from flask.ext.babel import Babel
+from flask.ext.babel import gettext, ngettext
+
 from twython import Twython, TwythonError
 
 from image import ImageGenerator
@@ -37,6 +40,7 @@ class Tw333tException(Exception):
 # Setup Flask
 # -----------
 app = Flask('dedeler')
+babel = Babel(app)
 port = int(os.environ.get("PORT", 5000))
 
 # Load configuration from file pointed by `DEDELER_SETTINGS` env. variable
@@ -78,13 +82,15 @@ class User(Base):
     def __init__(self, name):
         self.name = name
 
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
 @app.before_request
 def before_request():
     g.user = None
     if 'user_id' in session:
         g.user = User.query.get(session['user_id'])
-
 
 @app.after_request
 def after_request(response):
@@ -99,7 +105,7 @@ def index():
         t = Twython(APP_KEY, APP_SECRET,
             auth_info['oauth_token'], auth_info['oauth_token_secret'])
         tweets = t.get_user_timeline(screen_name=g.user.name)
-    return render_template('index.html', tweets=tweets)
+    return render_template('index.html', tweets=tweets, locale=get_locale())
 
 @app.route('/tweet', methods=['POST'])
 def tweet():
@@ -168,7 +174,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     session.pop('twitter', None)
-    flash('You were signed out', 'notification')
+    flash(gettext('You were signed out'), 'notification')
     return redirect(request.referrer or url_for('index'))
 
 @app.route('/oauth-authorized')
@@ -183,7 +189,7 @@ def handle_oauth_callback():
         
         next_url = request.args.get('next') or url_for('index')
         if resp is None or request.args.get('denied') is not None:
-            flash(u'You denied the request to sign in.', 'error')
+            flash(gettext('You denied the request to sign in.'), 'error')
             return redirect(next_url)
 
         user = User.query.filter_by(name=resp['screen_name']).first()
@@ -201,10 +207,10 @@ def handle_oauth_callback():
         db_session.commit()
 
         session['user_id'] = user.id
-        flash('You were signed in', 'notification')
+        flash(gettext('You were signed in'), 'notification')
         
     except Exception, e:
-        flash('Twitter authorization failed, please try again later.', 'error')
+        flash(gettext('Twitter authorization failed, please try again later.'), 'error')
         next_url = url_for('index')
 
     finally:

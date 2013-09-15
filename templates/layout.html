@@ -25,19 +25,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="brand" href="#">Tweet More</a>
+      <a class="brand" href="/">{{_('Tweet More')}}</a>
       <div class="nav-collapse collapse">
         <ul class="nav">
-          <li class="active"><a href="#">Freedom</a></li>
+          <li class="active"><a href="#">{{_('Freedom')}}</a></li>
         </ul>
 
-        <form class="navbar-form pull-right">
+        <form class="navbar-form">
           {% if g.user %}
-          <a class="btn" href="{{ url_for('logout') }}">sign out [{{ g.user.name }}]</a>
+          <li class="pull-right"><a class="btn" href="{{ url_for('logout') }}">{{_('Sign out')}} [{{ g.user.name }}]</a></li>
           {% else %}
-          <!-- <li><a class="btn" href="{{ url_for('login') }}">sign in</a> -->
-          <a id="twitterSignin" class="btn" href="{{ url_for('login') }}"><img src="{{url_for('static', filename='sign-in.png') }}" alt="sign in"></a>
+          <li class="pull-right"><a class="btn" href="{{ url_for('login') }}">{{_('Sign in with Twitter')}}</a>
           {% endif %}
+          <li class="pull-right" id="followBtnContainer"><a href="https://twitter.com/tw333t_com" class="twitter-follow-button" data-show-count="false" data-size="large" data-lang="{{locale}}">Follow @tw333t_com</a></li>
         </form>
       </div><!--/.nav-collapse -->
     </div>
@@ -46,8 +46,6 @@
 
 <div class="row-fluid">
   <div class="offset2 span8">
-    <p class="pull-right"><a href="https://twitter.com/tw333t_com" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @tw333t_com</a></p>
-
 
   {% for message in get_flashed_messages(category_filter=["notification"]) %}
     <div class="alert alert-info">
@@ -72,8 +70,8 @@
   <hr>
   <div class="pull-left">
     <img id="gnu" class="float-left" width="32" src="{{ url_for('static', filename='img/gnu.png') }}">
-    <div class="float-right"> This is a Free Software</div>
-    <div class="pull-left"><a target="_blank" href="https://github.com/dedeler/tweet-more"> View source &amp; license</a></div>
+    <div class="float-right"> {{_('This is a Free Software')}}</div>
+    <div class="pull-left"><a target="_blank" href="https://github.com/dedeler/tweet-more"> {{_('View source &amp; license')}}</a></div>
   </div>
   <a id="dedeler" target="_blank" href="http://dedeler.github.io">© Dedeler 2013</a>
 </div>

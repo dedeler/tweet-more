@@ -36,6 +36,10 @@ body{
   display: inline;
 }
 
+#followBtnContainer{
+  margin: 6px 5px 0 0;
+}
+
 textarea[name="tweet"] {
   /*Well, this is not an optimal solution but close enough (ignoring huge wide screens)*/
   width: 97%
