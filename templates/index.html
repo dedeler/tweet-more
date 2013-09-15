@@ -36,7 +36,7 @@
     {% endif %}
   {% else %}
     <div class=hero-unit>
-      <h1>140? Why not 333?</h1>
+      <h1>140? No limits because size matters!</h1>
       <p>You don't have to limit yourself to 140 characters! Tweet longer, without redirecting your followers to external links. Your longer tweets are embedded to your tweets as photos!</p>
       <p><a class="btn btn-primary btn-large" href="{{ url_for('login') }}">Sign in with Twitter</a></p>
     </div>
@@ -52,10 +52,6 @@
       }
 
       var tweet = $('textarea[name="tweet"]').val();
-
-      if(tweet.length > 333){
-        return;
-      }
 
       $.ajax({
         url: "{{ url_for('preview') }}",
@@ -84,14 +80,9 @@
       var color = 'gray';
 
       $('.formBtn').removeAttr('disabled');
-      if(count > 140 && count <= 333){
+      if(count > 140){
         color = 'blue';
         $('#wordCount').text($('#wordCount').text() + ' :)');
-      }
-      else if(count > 333){
-        color = 'red';
-        $('#wordCount').text($('#wordCount').text() + ' :(');
-        $('.formBtn').attr('disabled', 'true');
       }
 
       $('#wordCount').css('color', color);

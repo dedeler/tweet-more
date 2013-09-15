@@ -31,7 +31,6 @@ from image import ImageGenerator
 
 import os, re
 
-
 class Tw333tException(Exception):
     pass
 
@@ -100,10 +99,7 @@ def index():
         t = Twython(APP_KEY, APP_SECRET,
             auth_info['oauth_token'], auth_info['oauth_token_secret'])
         tweets = t.get_user_timeline(screen_name=g.user.name)
-            # flash('Unable to load tweets from Twitter. Maybe out of '
-            #       'API calls or Twitter is overloaded.')
     return render_template('index.html', tweets=tweets)
-
 
 @app.route('/tweet', methods=['POST'])
 def tweet():
@@ -121,17 +117,12 @@ def tweet():
         auth_info = session['auth_info']
         t = Twython(APP_KEY, APP_SECRET,
                 auth_info['oauth_token'], auth_info['oauth_token_secret'])
-        if len(status) > 333:
-            raise Tw333tException("Whoa the limit is 333 :/")
 
         media = image_generator.get_media(status)
         processedStatus = get_status_text(status)
 
         resp = t.update_status_with_media(media=media, status=processedStatus)
     except TwythonError as e:
-        flash(e, 'notification')
-        successful = False
-    except Tw333tException as e:
         flash(e, 'notification')
         successful = False
 
@@ -182,35 +173,42 @@ def logout():
 
 @app.route('/oauth-authorized')
 def handle_oauth_callback():
-    t = Twython(APP_KEY, APP_SECRET,
-            session['oauth_token'], session['oauth_token_secret'])
+    try:
+        t = Twython(APP_KEY, APP_SECRET,
+                session['oauth_token'], session['oauth_token_secret'])
 
-    oauth_verifier = request.args.get('oauth_verifier')
-    resp = t.get_authorized_tokens(oauth_verifier)
-    session['auth_info'] = resp
-    
-    next_url = request.args.get('next') or url_for('index')
-    if resp is None:
-        flash(u'You denied the request to sign in.', 'notification')
+        oauth_verifier = request.args.get('oauth_verifier')
+        resp = t.get_authorized_tokens(oauth_verifier)
+        session['auth_info'] = resp
+        
+        next_url = request.args.get('next') or url_for('index')
+        if resp is None or request.args.get('denied') is not None:
+            flash(u'You denied the request to sign in.', 'error')
+            return redirect(next_url)
+
+        user = User.query.filter_by(name=resp['screen_name']).first()
+
+        # user never signed on
+        if user is None:
+            user = User(resp['screen_name'])
+            db_session.add(user)
+
+        # in any case we update the authenciation token in the db
+        # In case the user temporarily revoked access we will have
+        # new tokens here.
+        user.oauth_token = resp['oauth_token']
+        user.oauth_secret = resp['oauth_token_secret']
+        db_session.commit()
+
+        session['user_id'] = user.id
+        flash('You were signed in', 'notification')
+        
+    except Exception, e:
+        flash('Twitter authorization failed, please try again later.', 'error')
+        next_url = url_for('index')
+
+    finally:
         return redirect(next_url)
-
-    user = User.query.filter_by(name=resp['screen_name']).first()
-
-    # user never signed on
-    if user is None:
-        user = User(resp['screen_name'])
-        db_session.add(user)
-
-    # in any case we update the authenciation token in the db
-    # In case the user temporarily revoked access we will have
-    # new tokens here.
-    user.oauth_token = resp['oauth_token']
-    user.oauth_secret = resp['oauth_token_secret']
-    db_session.commit()
-
-    session['user_id'] = user.id
-    flash('You were signed in', 'notification')
-    return redirect(next_url)
 
 def get_remaining_chars(max_status_length, mentions, urls):
      remaining_chars = max_status_length 

@@ -56,6 +56,13 @@
     </div>
   {% endfor %}
 
+  {% for message in get_flashed_messages(category_filter=["error"]) %}
+    <div class="alert alert-error">
+      <p class=message>{{ message }}
+      </p>
+    </div>
+  {% endfor %}
+
   {% block body %}{% endblock %}
   
   </div>
