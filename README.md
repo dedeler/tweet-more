@@ -12,6 +12,8 @@ Dependencies
 
 * python (you don't say)
 * pip
+* libpq-dev (for psycopg2)
+* python-dev (for psycopg2)
 
 Check out installation instructions here: http://www.pip-installer.org/en/latest/installing.html
 
@@ -27,16 +29,25 @@ Note that python version is `2.7.4`.
 Note that `twython` version is crucial for embedding images into tweets. 
 
 ```
-sudo pip install flask flask-babel sqlalchemy
-sudo pip install -I twython
+# use virtualenv to protect baby pandas!
+pip install flask flask-babel sqlalchemy
+pip install -I twython
 ```
 
 `-I` to install all dependencies, namely `requests` and `requests_oauthlib`.
 
+Installation troubleshooting
+----------------------------
+
+For error:
+
+        raise ImportError("The _imagingft C module is not installed")
+    ImportError: The _imagingft C module is not installed
+
+See: http://codeinthehole.com/writing/how-to-install-pil-on-64-bit-ubuntu-1204/
+
 Configuration & Launching
 -------------------------
-
-Rename `settings.py.example` to `settings.py` and fill *Twitter keys*.
 
 To launch the application issue following commands
 
