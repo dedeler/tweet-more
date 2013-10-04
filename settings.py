@@ -27,7 +27,6 @@ port = int(os.environ.get("PORT", 5000))
 environment = os.environ.get('ENV')
 
 # Configuration
-DATABASE_URI = 'sqlite:////tmp/flask-oauth.db' if environment == 'dev' else os.environ['DATABASE_URL']
 SECRET_KEY = 'development key'
 DEBUG = True
 

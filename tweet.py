@@ -33,7 +33,7 @@ from model import DB
 
 from mongokit import *
 
-import os, re
+import os, re, datetime
 
 class Tw333tException(Exception):
   pass
@@ -91,6 +91,11 @@ def tweet():
   """Calls the remote twitter API to create a new status update."""
   if g.user is None:
     return redirect(url_for('login', next=request.url))
+
+  #update last seen
+  g.user['last_seen'] = datetime.datetime.utcnow()
+  g.user.save()  
+
   status = request.form['tweet']
   if not status:
     return redirect(url_for('index'))
@@ -114,6 +119,13 @@ def tweet():
   if(successful):
     tweetId = resp['id']
     flash(str(resp['id']), 'tweetId')
+
+    # keep the tweet's id
+    tweet = DB.Tweet()
+    tweet['tweet_id'] = tweetId
+    tweet['user_id'] = g.user['user_id']
+    tweet.save()
+
   return redirect(url_for('index'))
 
 @app.route('/preview.png', methods=['POST'])
@@ -124,6 +136,10 @@ def preview():
   status = request.form['tweet']
   if not status:
     return redirect(url_for('index'))
+
+  #update last seen
+  g.user['last_seen'] = datetime.datetime.utcnow()
+  g.user.save()
 
   media = image_generator.get_media(status)
   response = send_file(media,mimetype ='image/png')
@@ -185,6 +201,9 @@ def handle_oauth_callback():
     # new tokens here.
     user['oauth_token'] = resp['oauth_token']
     user['oauth_secret'] = resp['oauth_token_secret']
+    now = datetime.datetime.utcnow()
+    user['last_login'] = now
+    user['last_seen'] = now
     user.save()
 
     session['user_id'] = str(user['_id'])
