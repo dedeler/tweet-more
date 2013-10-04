@@ -247,6 +247,7 @@ def get_status_text(tweet):
         overflowed = True
         break
     #append ellipsis to the last word
+    # CAUTION! below print causes unsolved encoding errors in (unknown)edge cases! Use in local only, if even necessary.
     # print len(words), index, word, remaining_chars
     if (len(shortened_words)>0 and overflowed):
       shortened_words[-1] += CONTINUATION_CHARARCTERS 
