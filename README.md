@@ -55,10 +55,13 @@ To launch the application issue following commands
 export DEDELER_SETTINGS='settings.py'
 export APP_KEY='XXX'
 export APP_SECRET='XXX'
+export MONGO_URI='mongodb://<username>:<password>@<host>:<port>/tweetmore'
 export ENV='dev'
 python tweet.py
 ```
-Optionally, you can set WATERMARK_TEXT to display a litte watermark-footer message to each image.
+
+* If you are in development medium then you can choose not to set `MONGO_URI` so mongo uses localhost
+* Optionally, you can set WATERMARK_TEXT to display a litte watermark-footer message to each image.
 
 **Note that** `export ENV='dev'` should only be used in development environment and in prod it should be left blank.
 
@@ -70,6 +73,7 @@ To set env. variable on Heroku
 heroku config:set DEDELER_SETTINGS='settings.py'
 heroku config:set APP_KEY='XXX'
 heroku config:set APP_SECRET='XXX'
+heroku config:set MONGO_URI='mongodb://<username>:<password>@<host>:<port>/tweetmore'
 ```
 
 **Remember** to upload `settings.py` to Heroku.

@@ -3,8 +3,8 @@ import datetime
 import os
 
 try:
-  connection = Connection(os.environ['MONGOLAB_URI'])
-  print 'Connected mongodb on Mongolab'
+  connection = Connection(host=os.environ['MONGO_URI'])
+  print 'Connected mongodb on Remote Mongo'
 except KeyError, e:
   connection = Connection('mongodb://localhost')
   print 'Connected mongodb on localhost'
