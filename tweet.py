@@ -311,9 +311,7 @@ def get_urls(tweet):
 def get_short_url_length(long_url):
   if(long_url.startswith('https://')):
     return TWITTER_HTTPS_LINK_LENGTH
-  if(long_url.startswith('http://')):
-    return TWITTER_HTTP_LINK_LENGTH
-  return None
+  return TWITTER_HTTP_LINK_LENGTH # maybe http, ftp or smth. else
 
 if __name__ == '__main__':
   port = int(os.environ.get("PORT", 5000))
