@@ -1,0 +1,10 @@
+{% block body %}
+
+  {% if g.user %}
+    <p>{{_('Now you can tweet more :)')}}</p>
+    <script type="text/javascript">window.close();</script>
+  {% else %}
+    <p>{{_('Twitter authorization failed, please try again later.')}}</p>
+  {% endif %}
+
+{% endblock %}

@@ -65,6 +65,8 @@ python tweet.py
 
 **Note that** `export ENV='dev'` should only be used in development environment and in prod it should be left blank.
 
+**mongo on lxc:** `sudo -u mongodb mongod  --smallfiles --dbpath /var/lib/mongodb/`
+
 ### Heroku
 
 To set env. variable on Heroku
