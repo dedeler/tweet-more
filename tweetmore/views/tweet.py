@@ -75,6 +75,11 @@ def tweet():
   g.user.save()  
 
   status = request.form['tweet']
+
+  in_reply_to_status_id = None
+  if 'replying_to' in request.form:
+    in_reply_to_status_id = request.form['replying_to']
+
   if not status:
     return redirect(url_for('index'))
 
@@ -89,7 +94,7 @@ def tweet():
     media = image_generator.get_media(status)
     processedStatus = get_status_text(status)
 
-    resp = t.update_status_with_media(media=media, status=processedStatus)
+    resp = t.update_status_with_media(media=media, status=processedStatus, in_reply_to_status_id=in_reply_to_status_id)
   except TwythonError as e:
     flash(e, 'notification')
     successful = False
