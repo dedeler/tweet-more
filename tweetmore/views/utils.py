@@ -25,6 +25,11 @@ from tweetmore import app
 
 babel = Babel(app)
 
+TWITTER_HTTPS_LINK_LENGTH = 23 #FIXME: GET help/configuration/short_url_length
+TWITTER_HTTP_LINK_LENGTH = 22 #FIXME: GET help/configuration/short_url_length
+CONTINUATION_CHARARCTERS = u'… '
+MAX_STATUS_TEXT_LENGTH = 140 - TWITTER_HTTP_LINK_LENGTH - 1
+
 @babel.localeselector
 def get_locale():
   return request.accept_languages.best_match(app.config['LANGUAGES'].keys())

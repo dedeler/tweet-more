@@ -41,10 +41,6 @@ class Tw333tException(Exception):
 APP_KEY = app.config['APP_KEY']
 APP_SECRET = app.config['APP_SECRET']
 twitter = Twython(APP_KEY, APP_SECRET)
-TWITTER_HTTPS_LINK_LENGTH = 23 #FIXME: GET help/configuration/short_url_length
-TWITTER_HTTP_LINK_LENGTH = 22 #FIXME: GET help/configuration/short_url_length
-CONTINUATION_CHARARCTERS = u'… '
-MAX_STATUS_TEXT_LENGTH = 140 - TWITTER_HTTP_LINK_LENGTH - 1
 
 image_generator = ImageGenerator(watermark_text=app.config['WATERMARK_TEXT'])
 
