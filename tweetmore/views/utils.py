@@ -23,12 +23,18 @@ from flask import request
 from flask.ext.babel import Babel
 from tweetmore import app
 
+import re
+
 babel = Babel(app)
 
 TWITTER_HTTPS_LINK_LENGTH = 23 #FIXME: GET help/configuration/short_url_length
 TWITTER_HTTP_LINK_LENGTH = 22 #FIXME: GET help/configuration/short_url_length
 CONTINUATION_CHARARCTERS = u'… '
 MAX_STATUS_TEXT_LENGTH = 140 - TWITTER_HTTP_LINK_LENGTH - 1
+
+# RegEx source: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+url_regex_pattern = r"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'.,<>?«»“”‘’]))"
+url_regex = re.compile(url_regex_pattern, re.I | re.M | re.U)
 
 @babel.localeselector
 def get_locale():
