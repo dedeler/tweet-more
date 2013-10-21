@@ -57,7 +57,7 @@ export APP_KEY='XXX'
 export APP_SECRET='XXX'
 export MONGO_URI='mongodb://<username>:<password>@<host>:<port>/tweetmore'
 export ENV='dev'
-python tweet.py
+python runserver.py
 ```
 
 * If you are in development medium then you can choose not to set `MONGO_URI` so mongo uses localhost
@@ -78,7 +78,7 @@ heroku config:set APP_SECRET='XXX'
 heroku config:set MONGO_URI='mongodb://<username>:<password>@<host>:<port>/tweetmore'
 ```
 
-**Remember** to upload `settings.py` to Heroku.
+Note that you need to uncomment the line `app.run(host='0.0.0.0', port=port)` in `runserver.py` if you are not using Heroku.
 
 Translations
 ------------
@@ -102,6 +102,11 @@ pybabel update -i messages.pot -d translations
 ```
 
 See http://pythonhosted.org/Flask-Babel for details
+
+Chrome Extension
+----------------
+
+
 
 License
 -------

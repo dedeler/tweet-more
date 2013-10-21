@@ -21,4 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/gpl-3.0.html>
 import os
 from tweetmore import app
 port = int(os.environ.get("PORT", 5000))
+
+# uncomment line below if you want to run outside of Heroku with `python runserver.py` command
 # app.run(host='0.0.0.0', port=port)
