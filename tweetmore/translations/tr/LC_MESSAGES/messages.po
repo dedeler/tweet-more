@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-15 20:56+0300\n"
+"POT-Creation-Date: 2013-10-17 15:06+0000\n"
 "PO-Revision-Date: 2013-09-15 19:13+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: tr <LL@li.org>\n"
@@ -17,19 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: tweet.py:177
-msgid "You were signed out"
-msgstr "Çıkış yaptınız"
+#: templates/callback.html:4
+msgid "Now you can tweet more :)"
+msgstr ""
 
-#: tweet.py:192
-msgid "You denied the request to sign in."
-msgstr "Giriş yapmayı reddettiniz."
-
-#: tweet.py:210
-msgid "You were signed in"
-msgstr "Giriş yaptınız"
-
-#: tweet.py:213
+#: templates/callback.html:7 views/tweet.py:206
 msgid "Twitter authorization failed, please try again later."
 msgstr "Twitter yetkilendirmesi başarısız oldu, lütfen birazdan yeniden deneyiniz."
 
@@ -87,15 +79,26 @@ msgstr "Özgürlük"
 msgid "Sign out"
 msgstr "Çıkış yap"
 
-#: templates/layout.html:48
-msgid "Follow"
-msgstr "Takip et"
-
-#: templates/layout.html:74
+#: templates/layout.html:73
 msgid "This is a Free Software"
 msgstr "Bu bir özgür yazılımdır"
 
-#: templates/layout.html:75
+#: templates/layout.html:74
 msgid "View source &amp; license"
 msgstr "Kaynak kod &amp; lisans görüntüle"
+
+#: views/tweet.py:160
+msgid "You were signed out"
+msgstr "Çıkış yaptınız"
+
+#: views/tweet.py:179
+msgid "You denied the request to sign in."
+msgstr "Giriş yapmayı reddettiniz."
+
+#: views/tweet.py:202
+msgid "You were signed in"
+msgstr "Giriş yaptınız"
+
+#~ msgid "Follow"
+#~ msgstr "Takip et"
 
