@@ -225,4 +225,4 @@ def extension_logout_callback():
 def extension_check_login():
   status = g.user is not None
   code = 200 if status else 401
-  return 'dedeler', code
+  return g.user['user_id'] if status else '', code
