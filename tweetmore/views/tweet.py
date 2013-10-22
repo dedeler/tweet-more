@@ -154,6 +154,10 @@ def login():
 def logout():
   session.pop('user_id', None)
   session.pop('twitter', None)
+
+  if request.args.get('ext') == 'true':
+    return redirect(url_for('extension_logout_callback'))
+
   flash(gettext('You were signed out'), 'notification')
   return redirect(request.referrer or url_for('index'))
 
@@ -212,6 +216,10 @@ def handle_oauth_callback():
 @app.route('/extension-callback')
 def extension_callback():
   return render_template('callback.html', locale=get_locale())
+
+@app.route('/extension-logout-callback')
+def extension_logout_callback():
+  return render_template('callback_logout.html', locale=get_locale())
 
 @app.route('/extension-check-login')
 def extension_check_login():

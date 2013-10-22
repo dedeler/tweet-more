@@ -1,0 +1,10 @@
+{% block body %}
+
+  {% if g.user %}
+    <p>{{_('ATTENTION! An error occured and you are still logged-in, please try again to logout.')}}</p>
+  {% else %}
+    <p>{{_('You are logged out')}}</p>
+    <script type="text/javascript">window.close();</script>
+  {% endif %}
+
+{% endblock %}
