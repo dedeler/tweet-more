@@ -3,6 +3,18 @@
 
   {% if g.user %}
 
+  <!-- Chrome extension notice -->
+  <div class="row-fluid" style="margin-bottom: 20px;">
+    <div class="offset2 span8">
+      <a href="https://chrome.google.com/webstore/detail/tweet-more/aaonmjpbabmdokoeknakeagnleegckcn" target="_blank" class="pull-left" style="margin-right: 10px;">
+        <img src="https://developers.google.com/chrome/web-store/images/branding/ChromeWebStore_BadgeWBorder_v2_206x58.png">
+      </a>
+      <p>For seamless integration with <a href="https://twitter.com" target="_blank">Twitter.com</a> please add <a href="https://chrome.google.com/webstore/detail/tweet-more/aaonmjpbabmdokoeknakeagnleegckcn" target="_blank">Tweet More Chrome Extension</a> to your browser in seconds.<br>
+      So that you will never need to navigate external sites to tweet more than 140 characters.</p>
+    </div>
+  </div>
+  <!-- End of Chrome extension notice -->
+
     <div class="row-fluid">
       <div class="offset2 span8">
         <div class=well>
@@ -38,7 +50,12 @@
     <div class=hero-unit>
       <h1>{{_('140? No limits because size matters!')}}</h1>
       <p>{{_('You don\'t have to limit yourself to 140 characters! Tweet longer, without redirecting your followers to external links. Your longer tweets are embedded to your tweets as photos!')}}</p>
-      <p><a class="btn btn-primary btn-large" href="{{ url_for('login') }}">{{_('Sign in with Twitter')}}</a></p>
+      <p>
+        <a class="btn btn-primary btn-large" href="{{ url_for('login') }}">{{_('Sign in with Twitter')}}</a>
+        <a href="https://chrome.google.com/webstore/detail/tweet-more/aaonmjpbabmdokoeknakeagnleegckcn" target="_blank" class="pull-right">
+          <img src="https://developers.google.com/chrome/web-store/images/branding/ChromeWebStore_Badge_v2_340x96.png">
+        </a>
+      </p>
     </div>
 
     <div id="exampleTweet">
