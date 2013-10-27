@@ -2,7 +2,7 @@
 
   {% if g.user %}
     <p>{{_('Now you can tweet more :)')}}</p>
-    <script type="text/javascript">window.close();</script>
+    <script type="text/javascript">window.open('', '_self', '');window.close();</script>
   {% else %}
     <p>{{_('Twitter authorization failed, please try again later.')}}</p>
   {% endif %}
