@@ -146,6 +146,7 @@ def login():
 
   session['oauth_token'] = oauth_token
   session['oauth_token_secret'] = oauth_token_secret
+  session.permanent = True
 
   return redirect(auth_props['auth_url'])
 
