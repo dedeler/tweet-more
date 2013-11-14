@@ -51,7 +51,7 @@ class Tweet(Document):
   __database__ = 'tweetmore'
   __collection__ = 'tweet'
   structure = {
-    'tweet_id': int,
+    'tweet_id': str,
     'user_id': unicode,
     'date': datetime.datetime
   }

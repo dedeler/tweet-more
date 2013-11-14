@@ -100,7 +100,7 @@ def tweet():
     successful = False
 
   if(successful):
-    tweetId = resp['id']
+    tweetId = str(resp['id']) # this is long, if not converted to str then it's represented in db wrong
     flash(str(resp['id']), 'tweetId')
 
     # keep the tweet's id
