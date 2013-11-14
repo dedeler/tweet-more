@@ -27,10 +27,14 @@ import re
 
 babel = Babel(app)
 
-TWITTER_HTTPS_LINK_LENGTH = 23 #FIXME: GET help/configuration/short_url_length
-TWITTER_HTTP_LINK_LENGTH = 22 #FIXME: GET help/configuration/short_url_length
+# *_LINK_LENGTH constants must be get from help/configuration/short_url_length daily
+# last update 14th November 2013
+TWITTER_HTTPS_LINK_LENGTH = 23
+TWITTER_HTTP_LINK_LENGTH = 22
+TWITTER_MEDIA_LINK_LENGTH = 23
+
 CONTINUATION_CHARARCTERS = u'… '
-MAX_STATUS_TEXT_LENGTH = 140 - TWITTER_HTTP_LINK_LENGTH - 1
+MAX_STATUS_TEXT_LENGTH = 140 - TWITTER_MEDIA_LINK_LENGTH - 1
 
 # RegEx source: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 url_regex_pattern = r"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'.,<>?«»“”‘’]))"
